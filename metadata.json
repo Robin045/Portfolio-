@@ -1,0 +1,6 @@
+{
+  "name": "Developer Portfolio & Resume",
+  "description": "A modern, recruiter-ready personal portfolio website featuring interactive experience, projects, skills matrix, resume viewer, and live sharing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
