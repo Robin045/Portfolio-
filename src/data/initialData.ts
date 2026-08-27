@@ -7,6 +7,7 @@ export const defaultPortfolioData: PortfolioProfile = {
   email: "robinatul7@gmail.com",
   phone: "+91-8684805719",
   location: "Bihar, India · Remote (Open to Relocation)",
+  locationUrl: "https://maps.app.goo.gl/4QsTTDu55dY2h4v48",
   availableForHire: true,
   noticePeriod: "Immediately Available",
   about: [

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Share2, 
-  Edit3, 
   Menu, 
   X, 
   Sparkles, 
@@ -15,7 +14,7 @@ interface NavbarProps {
   profile: PortfolioProfile;
   onOpenResume: () => void;
   onOpenDeployGuide: () => void;
-  onOpenEditor: () => void;
+  onOpenEditor?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -91,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             id="nav-btn-deploy"
             onClick={onOpenDeployGuide}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-all shadow-sm cursor-pointer"
             title="Deploy & Share Guide"
           >
             <Share2 className="w-3.5 h-3.5 text-sky-400" />
@@ -99,19 +98,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           <button
-            id="nav-btn-editor"
-            onClick={onOpenEditor}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-lg transition-all shadow-sm"
-            title="Edit Details"
-          >
-            <Edit3 className="w-3.5 h-3.5 text-amber-400" />
-            <span>Edit Data</span>
-          </button>
-
-          <button
             id="nav-btn-resume"
             onClick={onOpenResume}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 rounded-lg shadow-md shadow-sky-500/20 hover:shadow-sky-500/30 transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 rounded-lg shadow-md shadow-sky-500/20 hover:shadow-sky-500/30 transition-all cursor-pointer"
           >
             <FileText className="w-3.5 h-3.5" />
             <span>Resume</span>
@@ -158,28 +147,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <FileText className="w-4 h-4" />
               <span>View / Download Resume</span>
             </button>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenDeployGuide();
-                }}
-                className="py-2 flex items-center justify-center gap-1.5 text-xs text-slate-300 bg-slate-800 rounded-lg border border-slate-700"
-              >
-                <Share2 className="w-3.5 h-3.5 text-sky-400" />
-                <span>Deploy Guide</span>
-              </button>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenEditor();
-                }}
-                className="py-2 flex items-center justify-center gap-1.5 text-xs text-slate-300 bg-slate-800 rounded-lg border border-slate-700"
-              >
-                <Edit3 className="w-3.5 h-3.5 text-amber-400" />
-                <span>Edit Profile</span>
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenDeployGuide();
+              }}
+              className="w-full py-2 flex items-center justify-center gap-1.5 text-xs text-slate-300 bg-slate-800 rounded-lg border border-slate-700"
+            >
+              <Share2 className="w-3.5 h-3.5 text-sky-400" />
+              <span>Deploy & Share Guide</span>
+            </button>
           </div>
         </div>
       )}

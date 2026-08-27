@@ -9,6 +9,7 @@ import {
   ArrowRight, 
   Linkedin, 
   Github, 
+  Phone,
   ExternalLink,
   Sparkles,
   Clock,
@@ -32,6 +33,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ profile, onOpenResume 
 
   const linkedinLink = profile.socials.find(s => s.platform.toLowerCase() === 'linkedin')?.url || 'https://linkedin.com';
   const githubLink = profile.socials.find(s => s.platform.toLowerCase() === 'github')?.url || 'https://github.com';
+  const locationUrl = profile.locationUrl || 'https://maps.app.goo.gl/4QsTTDu55dY2h4v48';
+  const phoneTel = profile.phone ? `tel:${profile.phone.replace(/[^\d+]/g, '')}` : 'tel:+918684805719';
 
   return (
     <section id="hero" className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
@@ -78,17 +81,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ profile, onOpenResume 
               {profile.tagline}
             </p>
 
-            {/* Meta Tags (Location, Email copy) */}
+            {/* Meta Tags (Location with Google Maps, Phone with Call link, Email copy) */}
             <div className="flex flex-wrap items-center gap-3 pt-1 text-xs sm:text-sm text-slate-400">
-              <div className="flex items-center gap-1.5 bg-slate-900/60 px-3 py-1.5 rounded-lg border border-slate-800">
-                <MapPin className="w-4 h-4 text-sky-400 shrink-0" />
+              {/* Clickable Location linking to Google Maps */}
+              <a
+                id="hero-location-link"
+                href={locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-1.5 bg-slate-900/70 hover:bg-slate-800/90 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-sky-500/50 text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm"
+                title="Click to view exact location on Google Maps"
+              >
+                <MapPin className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform shrink-0" />
                 <span>{profile.location}</span>
-              </div>
+                <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-sky-400 transition-colors ml-0.5" />
+              </a>
 
+              {/* Clickable Phone Number linking to Phone Dialer / Call Log */}
+              {profile.phone && (
+                <a
+                  id="hero-phone-link"
+                  href={phoneTel}
+                  className="group flex items-center gap-1.5 bg-slate-900/70 hover:bg-slate-800/90 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-emerald-500/50 text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm"
+                  title={`Click to call ${profile.phone}`}
+                >
+                  <Phone className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform shrink-0" />
+                  <span className="font-mono">{profile.phone}</span>
+                </a>
+              )}
+
+              {/* Copyable & Clickable Email */}
               <button
                 id="hero-copy-email-btn"
                 onClick={copyEmail}
-                className="flex items-center gap-1.5 bg-slate-900/60 hover:bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 bg-slate-900/70 hover:bg-slate-800/90 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
                 title="Click to copy email address"
               >
                 <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
@@ -130,7 +156,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ profile, onOpenResume 
             </div>
 
             {/* Social Links Row */}
-            <div className="flex items-center gap-3 pt-2 text-slate-400">
+            <div className="flex items-center gap-2.5 pt-2 text-slate-400">
               <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Connect:</span>
               <a
                 href={linkedinLink}
@@ -138,6 +164,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ profile, onOpenResume 
                 rel="noopener noreferrer"
                 className="p-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg text-slate-300 hover:text-sky-400 transition-colors"
                 aria-label="LinkedIn Profile"
+                title="LinkedIn Profile"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
@@ -147,13 +174,35 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ profile, onOpenResume 
                 rel="noopener noreferrer"
                 className="p-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg text-slate-300 hover:text-white transition-colors"
                 aria-label="GitHub Profile"
+                title="GitHub Profile"
               >
                 <Github className="w-4 h-4" />
+              </a>
+              {profile.phone && (
+                <a
+                  href={phoneTel}
+                  className="p-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg text-slate-300 hover:text-emerald-400 transition-colors"
+                  aria-label="Call Phone"
+                  title={`Call ${profile.phone}`}
+                >
+                  <Phone className="w-4 h-4" />
+                </a>
+              )}
+              <a
+                href={locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg text-slate-300 hover:text-sky-400 transition-colors"
+                aria-label="Google Maps Location"
+                title="Google Maps Location"
+              >
+                <MapPin className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${profile.email}`}
                 className="p-2 bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-lg text-slate-300 hover:text-indigo-400 transition-colors"
                 aria-label="Direct Email"
+                title="Send Email"
               >
                 <Mail className="w-4 h-4" />
               </a>

@@ -9,40 +9,24 @@ import { EducationSection } from './components/EducationSection';
 import { ContactSection } from './components/ContactSection';
 import { ResumeModal } from './components/ResumeModal';
 import { DeploymentModal } from './components/DeploymentModal';
-import { DataEditorModal } from './components/DataEditorModal';
 import { defaultPortfolioData } from './data/initialData';
 import { PortfolioProfile } from './types';
 import { 
-  Heart, 
   ArrowUp, 
   Share2, 
   FileText, 
-  Edit3,
   Github,
   Linkedin,
   Mail,
+  MapPin,
+  Phone,
   ExternalLink
 } from 'lucide-react';
 
 export default function App() {
-  const [profile, setProfile] = useState<PortfolioProfile>(() => {
-    try {
-      const saved = localStorage.getItem('portfolio_profile_data_v2');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.name && parsed.name !== "Your Name") {
-          return parsed;
-        }
-      }
-    } catch (e) {
-      console.warn('Failed to parse local profile data:', e);
-    }
-    return defaultPortfolioData;
-  });
-
+  const [profile] = useState<PortfolioProfile>(defaultPortfolioData);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isDeployGuideOpen, setIsDeployGuideOpen] = useState(false);
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -53,21 +37,14 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSaveProfile = (newProfile: PortfolioProfile) => {
-    setProfile(newProfile);
-    try {
-      localStorage.setItem('portfolio_profile_data_v2', JSON.stringify(newProfile));
-    } catch (e) {
-      console.error('Failed to save profile to localStorage:', e);
-    }
-  };
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const linkedinLink = profile.socials.find(s => s.platform.toLowerCase() === 'linkedin')?.url || 'https://linkedin.com';
+  const linkedinLink = profile.socials.find(s => s.platform.toLowerCase() === 'linkedin')?.url || 'https://www.linkedin.com/in/robinkumar-da';
   const githubLink = profile.socials.find(s => s.platform.toLowerCase() === 'github')?.url || 'https://github.com';
+  const locationUrl = profile.locationUrl || 'https://maps.app.goo.gl/4QsTTDu55dY2h4v48';
+  const phoneTel = profile.phone ? `tel:${profile.phone.replace(/[^\d+]/g, '')}` : 'tel:+918684805719';
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-sky-500 selection:text-white relative">
@@ -76,7 +53,6 @@ export default function App() {
         profile={profile}
         onOpenResume={() => setIsResumeOpen(true)}
         onOpenDeployGuide={() => setIsDeployGuideOpen(true)}
-        onOpenEditor={() => setIsEditorOpen(true)}
       />
 
       {/* Main Sections */}
@@ -99,15 +75,15 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-lg bg-sky-500 flex items-center justify-center text-white font-bold text-xs">
-                {profile.name.charAt(0) || 'P'}
+                {profile.name.charAt(0) || 'R'}
               </div>
               <span className="font-semibold text-slate-200">{profile.name}</span>
             </div>
             <span className="hidden sm:inline text-slate-700">•</span>
-            <span>Portfolio &amp; Interactive Resume</span>
+            <span>Data Analyst &amp; Junior Developer Portfolio</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 text-slate-400">
             <a
               href={linkedinLink}
               target="_blank"
@@ -123,6 +99,22 @@ export default function App() {
               className="hover:text-white transition-colors"
             >
               GitHub
+            </a>
+            <a
+              href={phoneTel}
+              className="hover:text-emerald-400 transition-colors"
+              title={`Call ${profile.phone}`}
+            >
+              Phone ({profile.phone})
+            </a>
+            <a
+              href={locationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-sky-400 transition-colors"
+              title="Open in Google Maps"
+            >
+              Location (Maps)
             </a>
             <button
               onClick={() => setIsResumeOpen(true)}
@@ -144,12 +136,12 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Floating Bottom Quick-Action Bar for Recruiter / Owner */}
+      {/* Floating Bottom Quick-Action Bar for Recruiter */}
       <div className="fixed bottom-5 right-5 z-30 flex items-center gap-2">
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="p-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 shadow-xl transition-all"
+            className="p-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 shadow-xl transition-all cursor-pointer"
             aria-label="Scroll to top"
           >
             <ArrowUp className="w-4 h-4" />
@@ -167,13 +159,6 @@ export default function App() {
       <DeploymentModal
         isOpen={isDeployGuideOpen}
         onClose={() => setIsDeployGuideOpen(false)}
-      />
-
-      <DataEditorModal
-        isOpen={isEditorOpen}
-        onClose={() => setIsEditorOpen(false)}
-        profile={profile}
-        onSaveProfile={handleSaveProfile}
       />
     </div>
   );

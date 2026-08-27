@@ -77,20 +77,34 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose, profi
 
             {/* Contact details row */}
             <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
-              <span className="flex items-center gap-1">
+              <a 
+                href={`mailto:${profile.email}`} 
+                className="flex items-center gap-1 hover:text-sky-400 transition-colors"
+                title="Send Email"
+              >
                 <Mail className="w-3.5 h-3.5 text-slate-500" />
                 {profile.email}
-              </span>
+              </a>
               {profile.phone && (
-                <span className="flex items-center gap-1">
+                <a 
+                  href={`tel:${profile.phone.replace(/[^\d+]/g, '')}`} 
+                  className="flex items-center gap-1 hover:text-emerald-400 transition-colors"
+                  title={`Call ${profile.phone}`}
+                >
                   <Phone className="w-3.5 h-3.5 text-slate-500" />
                   {profile.phone}
-                </span>
+                </a>
               )}
-              <span className="flex items-center gap-1">
+              <a 
+                href={profile.locationUrl || 'https://maps.app.goo.gl/4QsTTDu55dY2h4v48'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-1 hover:text-sky-400 transition-colors"
+                title="View location on Google Maps"
+              >
                 <MapPin className="w-3.5 h-3.5 text-slate-500" />
                 {profile.location}
-              </span>
+              </a>
               {linkedinLink && (
                 <a href={linkedinLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sky-400 hover:underline">
                   <Linkedin className="w-3.5 h-3.5" /> LinkedIn

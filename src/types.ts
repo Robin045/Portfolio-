@@ -62,6 +62,7 @@ export interface PortfolioProfile {
   email: string;
   phone?: string;
   location: string;
+  locationUrl?: string;
   availableForHire: boolean;
   noticePeriod?: string;
   about: string[];

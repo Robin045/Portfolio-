@@ -9,6 +9,7 @@ import {
   Phone, 
   MapPin, 
   Clock, 
+  ExternalLink,
   MessageSquare,
   Sparkles
 } from 'lucide-react';
@@ -20,6 +21,7 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const [copied, setCopied] = useState(false);
+  const [phoneCopied, setPhoneCopied] = useState(false);
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
@@ -27,6 +29,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     navigator.clipboard.writeText(profile.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const copyPhone = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (profile.phone) {
+      navigator.clipboard.writeText(profile.phone);
+      setPhoneCopied(true);
+      setTimeout(() => setPhoneCopied(false), 2000);
+    }
   };
 
   const handleSendEmail = (e: React.FormEvent) => {
@@ -37,6 +49,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
   const linkedinLink = profile.socials.find(s => s.platform.toLowerCase() === 'linkedin')?.url || 'https://linkedin.com';
   const githubLink = profile.socials.find(s => s.platform.toLowerCase() === 'github')?.url || 'https://github.com';
+  const locationUrl = profile.locationUrl || 'https://maps.app.goo.gl/4QsTTDu55dY2h4v48';
+  const phoneTel = profile.phone ? `tel:${profile.phone.replace(/[^\d+]/g, '')}` : 'tel:+918684805719';
 
   return (
     <section id="contact" className="py-16 md:py-24 border-t border-slate-800/80 relative">
@@ -121,16 +135,50 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                 </a>
 
                 {profile.phone && (
-                  <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/50 border border-slate-800 text-slate-300 text-sm">
-                    <Phone className="w-4 h-4 text-emerald-400" />
-                    <span className="font-mono">{profile.phone}</span>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors group">
+                    <a
+                      id="contact-phone-link"
+                      href={phoneTel}
+                      className="flex items-center gap-2.5 text-slate-300 hover:text-emerald-400 text-sm transition-colors grow"
+                      title={`Call ${profile.phone}`}
+                    >
+                      <Phone className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                      <span className="font-mono">{profile.phone}</span>
+                    </a>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={copyPhone}
+                        className="p-1 text-slate-500 hover:text-slate-200 transition-colors rounded"
+                        title="Copy phone number"
+                      >
+                        {phoneCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
+                      <a
+                        href={phoneTel}
+                        className="text-xs text-emerald-400 font-mono hover:underline hidden sm:inline"
+                      >
+                        Call &rarr;
+                      </a>
+                    </div>
                   </div>
                 )}
 
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/50 border border-slate-800 text-slate-300 text-sm">
-                  <MapPin className="w-4 h-4 text-indigo-400" />
-                  <span>{profile.location}</span>
-                </div>
+                <a
+                  id="contact-location-link"
+                  href={locationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors group"
+                  title="Open exact home location on Google Maps"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <MapPin className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform shrink-0" />
+                    <span className="text-sm">{profile.location}</span>
+                  </div>
+                  <span className="text-xs text-sky-400 font-mono flex items-center gap-1 shrink-0">
+                    Google Maps <ExternalLink className="w-3 h-3" />
+                  </span>
+                </a>
               </div>
             </div>
           </div>
