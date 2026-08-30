@@ -9,17 +9,17 @@ export const defaultPortfolioData: PortfolioProfile = {
   location: "Bihar, India · Remote (Open to Relocation)",
   locationUrl: "https://maps.app.goo.gl/4QsTTDu55dY2h4v48",
   availableForHire: true,
-  noticePeriod: "Immediately Available",
+  noticePeriod: "15 days Or less than 15 days",
   about: [
     "I am a B.Tech Computer Science & Engineering graduate (DCRUST, Sonepat, 2026) with deep hands-on Data Analytics project experience across SQL, Python, and Power BI, paired with active industry experience as a Junior Developer at AgriArjuna AI.",
     "My technical focus spans the complete data lifecycle: raw ETL pipeline automation and data cleaning with Pandas/NumPy, relational schema modeling with high-performance SQL (CTEs, Window Functions), live Power BI dashboards with DAX KPI modeling, and AI-assisted data workflows (RAG with Qdrant vector DB).",
-    "Actively seeking remote Data Analyst opportunities, with immediate availability and openness to relocation post-interview where required."
+    "Actively seeking remote Data Analyst opportunities, with availability within 15 days or less, and openness to relocation post-interview where required."
   ],
   stats: [
     { label: "SQL Business Queries", value: "13+ Real" },
     { label: "Live Power BI Dashboards", value: "4 Custom" },
     { label: "Crop Ingestion Records", value: "115+" },
-    { label: "Availability Status", value: "Immediate" }
+    { label: "Availability Status", value: "≤ 15 Days" }
   ],
   socials: [
     { platform: "LinkedIn", url: "https://www.linkedin.com/in/robinkumar-da", label: "LinkedIn Profile" },
